@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text(
-          'My Sakuw',
+          'WayangKu',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
