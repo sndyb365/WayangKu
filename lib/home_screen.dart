@@ -139,31 +139,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Saldo Anda',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white70,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            formatter.format(balance),
-            style: const TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
           const SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildActionButton(Icons.arrow_upward, 'Transfer', Colors.white),
-              _buildActionButton(Icons.arrow_downward, 'Terima', Colors.white),
-              _buildActionButton(Icons.qr_code, 'QR Pay', Colors.white),
-              _buildActionButton(Icons.history, 'History', Colors.white),
+              _buildActionButton(Icons.book, 'Cerita', Colors.white),
+              _buildActionButton(Icons.movie, 'Film', Colors.white),
+              _buildActionButton(Icons.volume_up, 'Suara', Colors.white),
             ],
           ),
         ],
@@ -175,19 +157,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () {
         switch (label) {
-          case 'Transfer':
+          case 'Cerita':
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => TransferPage()),
             );
             break;
-          case 'Terima':
+          case 'Film':
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => TerimaPage()),
             );
             break;
-          case 'QR Pay':
+          case 'Suara':
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => QrpayPage()),
