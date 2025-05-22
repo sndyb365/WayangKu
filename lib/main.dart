@@ -13,8 +13,8 @@ class MbakingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Mbaking App',
-      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Roboto'),
+      title: 'WayangKu',
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'poppins'),
       home: const MainNavigation(),
       debugShowCheckedModeBanner: false,
     );
@@ -35,34 +35,42 @@ class _MainNavigationState extends State<MainNavigation> {
     const HomeScreen(),
     const CardScreen(),
     const ProfileScreen(),
+    const ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white70,
-        backgroundColor: Colors.indigo[200],
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.credit_card),
-            label: 'Cards',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_2_rounded),
-            label: 'Profile',
-          ),
-        ],
-      ),
+    bottomNavigationBar: BottomNavigationBar(
+  type: BottomNavigationBarType.fixed, // Tambahkan ini
+  currentIndex: _currentIndex,
+  onTap: (index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  },
+  selectedItemColor: Colors.white,
+  unselectedItemColor: Colors.white70,
+  backgroundColor: Colors.amber,
+  items: const [
+    BottomNavigationBarItem(
+      icon: Icon(Icons.home_filled), 
+      label: 'Home'),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.book), 
+      label: 'Cerita'),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.movie),
+      label: 'Film',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.volume_up),
+      label: 'Suara',
+    ),
+  ],
+),
+
     );
   }
 }

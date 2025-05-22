@@ -40,6 +40,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
+  video_player: ^2.9.5
+  youtube_player_flutter: ^9.1.1
+  youtube_player_iframe: ^5.2.1
 
 flutter_launcher_icons:
   android: true
@@ -63,11 +66,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/visa.png
     - assets/mastercard.png
     - assets/bca.png
     - assets/bni.png
-    - assets/bri.png
     - assets/danamon.png
     - assets/mandiri.png
     - assets/cimb.png
@@ -79,7 +80,10 @@ flutter:
     - assets/citi.png
     - assets/hsbc.png
     - assets/dbs.png
-    - assets/qris.png
+    - assets/fotoku.jpg
+    - assets/baratayuda.jpg
+    - assets/puntadewa.jpg
+    - assets/vodb.mp4
 
   # To add assets to your application, add an assets section, like this:
   # assets:

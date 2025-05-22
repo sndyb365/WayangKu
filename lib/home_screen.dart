@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.indigo[200],
+        backgroundColor: Colors.amber[500],
         elevation: 0,
         shape: const RoundedRectangleBorder(
           // borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
@@ -74,42 +74,37 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildUserProfile() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      color: Colors.indigo[200],
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundImage: NetworkImage(
-              'https://i.pinimg.com/736x/ce/0a/a4/ce0aa48f676de171d21a634d45a40946.jpg',
+  return Container(
+    padding: const EdgeInsets.all(16),
+    color: Colors.amber,
+    child: Row(
+      children: [
+        ClipOval(
+  child: Image.asset(
+    'assets/fotoku.jpg',
+    width: 60,
+    height: 60,
+    fit: BoxFit.cover,
+  ),
+),
+        const SizedBox(width: 16),
+        const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Sandy Bimo H.',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Selamat Datang',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
-                  fontSize: 14,
-                ),
-              ),
-              const Text(
-                'Mikumiestu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+            Text('Mahasiswa UNY'),
+          ],
+        )
+      ],
+    ),
+  );
+}
 
   Widget _buildBalanceCard() {
     final formatter = NumberFormat.currency(
@@ -123,12 +118,12 @@ class _HomeScreenState extends State<HomeScreen> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.indigo[500]!, Colors.indigo[200]!],
+          colors: [Colors.amber[500]!, Colors.amber[500]!],
         ),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.indigo.withOpacity(0.3),
+            color: Colors.amber.withOpacity(0.3),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -143,9 +138,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildActionButton(Icons.book, 'Cerita', Colors.white),
-              _buildActionButton(Icons.movie, 'Film', Colors.white),
-              _buildActionButton(Icons.volume_up, 'Suara', Colors.white),
+              _buildActionButton(Icons.book, 'Cerita', Colors.amber),
+              _buildActionButton(Icons.movie, 'Film', Colors.amber),
+              _buildActionButton(Icons.volume_up, 'Suara', Colors.amber),
             ],
           ),
         ],
@@ -160,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
           case 'Cerita':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TransferPage()),
+              MaterialPageRoute(builder: (context) => BaratayudaVideoPage()),
             );
             break;
           case 'Film':
@@ -188,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.indigo[300],
+              color: Colors.white,
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: color),
@@ -204,7 +199,8 @@ class _HomeScreenState extends State<HomeScreen> {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const CardPerangBaratayuda(), // Tampilkan kartu di bawah transaksi
+      const CardPerangBaratayuda(), 
+      const CardPerang2(),// Tampilkan kartu di bawah transaksi
     ],
   );
 }
@@ -213,6 +209,59 @@ class _HomeScreenState extends State<HomeScreen> {
 // Pindah ke luar _HomeScreenState
 class CardPerangBaratayuda extends StatelessWidget {
   const CardPerangBaratayuda({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const BaratayudaVideoPage()),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.amber,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        height: 160,
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(24),
+                bottomLeft: Radius.circular(24),
+              ),
+              child: Image.asset(
+                'assets/baratayuda.jpg',
+                height: double.infinity,
+                width: 140,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Perang\nBaratayuda',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CardPerang2 extends StatelessWidget {
+  const CardPerang2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -231,7 +280,7 @@ class CardPerangBaratayuda extends StatelessWidget {
               bottomLeft: Radius.circular(24),
             ),
             child: Image.asset(
-              'assets/bca.png',
+              'assets/puntadewa.jpg',
               height: double.infinity,
               width: 140,
               fit: BoxFit.cover,
@@ -254,8 +303,8 @@ class CardPerangBaratayuda extends StatelessWidget {
       ),
     );
   }
-
 }
+
 class Transaction {
   final String description;
   final double amount;
