@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             _buildUserProfile(),
             _buildBalanceCard(),
-            _buildQuickActions(),
+           
             _buildTransactionHistory(),
           ],
         ),
@@ -200,104 +200,62 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildQuickActions() {
-    return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 2,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Aktivitas Terakhir',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
-          const SizedBox(height: 16),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 4,
-            childAspectRatio: 0.9,
-            children: [
-              _buildServiceButton(Icons.phone_android, 'Pulsa', Colors.indigo),
-              _buildServiceButton(Icons.bolt, 'PLN', Colors.orange),
-              _buildServiceButton(Icons.water_drop, 'PDAM', Colors.indigo),
-              _buildServiceButton(Icons.tv, 'TV Kabel', Colors.purple),
-              _buildServiceButton(
-                Icons.health_and_safety_outlined,
-                'BPJS',
-                Colors.green,
-              ),
-              _buildServiceButton(Icons.card_giftcard, 'Voucher', Colors.red),
-              _buildServiceButton(
-                Icons.local_atm_rounded,
-                'Pinjaman',
-                Colors.teal,
-              ),
-              _buildServiceButton(Icons.more_horiz, 'Lainnya', Colors.grey),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildServiceButton(IconData icon, String label, Color color) {
-    return InkWell(
-      onTap: () {},
-      child: Column(
-        children: [
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: color),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildTransactionHistory() {
-    final formatter = NumberFormat.currency(
-      locale: 'id_ID',
-      symbol: 'Rp',
-      decimalDigits: 0,
-    );
-    final dateFormatter = DateFormat('dd MMM yyyy');
-
-    return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(16),
-      
-      
-    );
-  }
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const CardPerangBaratayuda(), // Tampilkan kartu di bawah transaksi
+    ],
+  );
+}
 }
 
+// Pindah ke luar _HomeScreenState
+class CardPerangBaratayuda extends StatelessWidget {
+  const CardPerangBaratayuda({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.amber,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      height: 160,
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(24),
+              bottomLeft: Radius.circular(24),
+            ),
+            child: Image.asset(
+              'assets/bca.png',
+              height: double.infinity,
+              width: 140,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Perang\nBaratayuda',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+}
 class Transaction {
   final String description;
   final double amount;
