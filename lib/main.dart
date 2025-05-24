@@ -3,6 +3,9 @@ import 'package:mbanking_app_flutter/components/card_screen.dart';
 import 'package:mbanking_app_flutter/home_screen.dart';
 import 'package:mbanking_app_flutter/components/profile_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mbanking_app_flutter/page/cerita.dart';
+import 'package:mbanking_app_flutter/page/film.dart';
+import 'package:mbanking_app_flutter/page/history_page.dart';
 
 void main() {
   runApp(const MbakingApp());
@@ -34,9 +37,9 @@ class _MainNavigationState extends State<MainNavigation> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const CardScreen(),
-    const ProfileScreen(),
-    const ProfileScreen(),
+    const CeritaPage(),
+    const FilmPage(),
+    const SuaraPage(),
   ];
 
   @override

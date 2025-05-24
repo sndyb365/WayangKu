@@ -12,15 +12,15 @@ class CeritaPage extends StatelessWidget {
       },
       {
         'title': 'Ramayana',
-        'image': 'assets/cerita/baratayuda.jpg',
+        'image': 'assets/baratayuda.jpg',
       },
       {
         'title': 'Petruk Dadi Ratu',
-        'image': 'assets/cerita/baratayuda.jpg',
+        'image': 'assets/baratayuda.jpg',
       },
       {
         'title': 'Gatotkaca Gugur',
-        'image': 'assets/cerita/baratayuda.jpg',
+        'image': 'assets/baratayuda.jpg',
       },
     ];
 

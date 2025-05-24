@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
-
-// Import halaman lain yang kamu punya
-import 'package:mbanking_app_flutter/page/transfer_page.dart';
 import 'package:mbanking_app_flutter/page/film.dart';
 import 'package:mbanking_app_flutter/page/history_page.dart';
 import 'package:mbanking_app_flutter/page/cerita.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,12 +19,19 @@ class _HomeScreenState extends State<HomeScreen> {
     Transaction('Puntadewa', 0, DateTime(2023, 5, 22)),
     Transaction('Puntadewa', 0, DateTime(2023, 5, 23)),
   ];
-
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu, color: Colors.white),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
         title: const Text(
           'WayangKu',
           style: TextStyle(
@@ -41,6 +46,51 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
+
+      // Drawer
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(color: Colors.amber[500]),
+              child: const Text(
+                'Menu WayangKu',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Beranda'),
+              onTap: () {
+                Navigator.pushNamed(context, '/home');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.video_library),
+              title: const Text('Suara Wayang'),
+              onTap: () {
+                Navigator.pushNamed(context, '/cerita');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.movie),
+              title: const Text('Film Wayang'),
+              onTap: () {
+                Navigator.pushNamed(context, '/film');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Pengaturan'),
+              onTap: () {
+                Navigator.pushNamed(context, '/settings');
+              },
+            ),
+          ],
+        ),
+      ),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -52,6 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+
+
 
  Widget _buildUserProfile() {
   return Container(
