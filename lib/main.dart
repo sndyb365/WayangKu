@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mbanking_app_flutter/components/card_screen.dart';
 import 'package:mbanking_app_flutter/home_screen.dart';
 import 'package:mbanking_app_flutter/components/profile_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   runApp(const MbakingApp());

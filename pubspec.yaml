@@ -43,6 +43,8 @@ dev_dependencies:
   video_player: ^2.9.5
   youtube_player_flutter: ^9.1.1
   youtube_player_iframe: ^5.2.1
+  shared_preferences: ^2.5.3
+  intl: ^0.18.1
 
 flutter_launcher_icons:
   android: true

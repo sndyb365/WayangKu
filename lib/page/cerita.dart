@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
-class SuaraPage extends StatelessWidget {
-  const SuaraPage({super.key});
+class CeritaPage extends StatelessWidget {
+  const CeritaPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> suaraList = [
+    final List<Map<String, String>> ceritaList = [
       {
         'title': 'Baratayuda',
-        'image': 'assets/suara/baratayuda.jpg',
+        'image': 'assets/baratayuda.jpg',
       },
       {
         'title': 'Ramayana',
-        'image': 'assets/suara/ramayana.jpg',
+        'image': 'assets/cerita/baratayuda.jpg',
       },
       {
         'title': 'Petruk Dadi Ratu',
-        'image': 'assets/suara/petruk.jpg',
+        'image': 'assets/cerita/baratayuda.jpg',
       },
       {
         'title': 'Gatotkaca Gugur',
-        'image': 'assets/suara/gatotkaca.jpg',
+        'image': 'assets/cerita/baratayuda.jpg',
       },
     ];
 
@@ -44,18 +44,18 @@ class SuaraPage extends StatelessWidget {
                   ),
                   child: Column(
                     children: const [
-                      SizedBox(height: 16),
+                      SizedBox(height: 16), // Supaya teks tidak ketimpa tombol
                       Text(
-                        'Suara Wayang',
+                        'Pilihan Cerita Wayang',
                         style: TextStyle(
-                          fontSize: 36,
+                          fontSize: 40,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
                       SizedBox(height: 8),
                       Text(
-                        'Dengarkan suara dan cuplikan dialog dari tokoh-tokoh wayang.',
+                        'Pilih salah satu cerita wayang untuk ditonton dan dipelajari lebih lanjut.',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white70,
@@ -65,6 +65,7 @@ class SuaraPage extends StatelessWidget {
                     ],
                   ),
                 ),
+                // TOMBOL KEMBALI
                 Positioned(
                   top: 8,
                   left: 8,
@@ -78,12 +79,12 @@ class SuaraPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            // GRID SUARA WAYANG
+            // GRID CERITA
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: GridView.builder(
-                  itemCount: suaraList.length,
+                  itemCount: ceritaList.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 16,
@@ -91,10 +92,10 @@ class SuaraPage extends StatelessWidget {
                     childAspectRatio: 3 / 4,
                   ),
                   itemBuilder: (context, index) {
-                    final suara = suaraList[index];
+                    final cerita = ceritaList[index];
                     return GestureDetector(
                       onTap: () {
-                        // TODO: Navigasi ke halaman pemutar suara
+                        // TODO: Navigasi ke halaman detail/video
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -114,7 +115,7 @@ class SuaraPage extends StatelessWidget {
                             ClipRRect(
                               borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                               child: Image.asset(
-                                suara['image']!,
+                                cerita['image']!,
                                 height: 120,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
@@ -122,18 +123,17 @@ class SuaraPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              suara['title']!,
+                              cerita['title']!,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.brown,
                               ),
-                              textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 8),
                             ElevatedButton(
                               onPressed: () {
-                                // TODO: Navigasi ke halaman pemutar suara atau mulai audio
+                                // TODO: Navigasi ke halaman video tertentu
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
@@ -141,11 +141,10 @@ class SuaraPage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
-                              child: Text(
-                                'Dengarkan',
-                                style: TextStyle(color: Colors.yellow[700]),
+                              child: Text('Lihat',
+                              style: TextStyle(color: Colors.yellow[700]),
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ),

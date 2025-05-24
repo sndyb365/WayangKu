@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
+
+// Import halaman lain yang kamu punya
 import 'package:mbanking_app_flutter/page/transfer_page.dart';
-import 'package:mbanking_app_flutter/page/terima_page.dart';
+import 'package:mbanking_app_flutter/page/film.dart';
 import 'package:mbanking_app_flutter/page/history_page.dart';
-import 'package:mbanking_app_flutter/page/qrpay_page.dart';
+import 'package:mbanking_app_flutter/page/cerita.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,28 +16,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  double balance = 1575000000.0;
   final List<Transaction> transactions = [
-    Transaction(
-      "Transfer ke BCA",
-      -500000,
-      DateTime.now().subtract(const Duration(days: 1)),
-    ),
-    Transaction(
-      "Gaji Bulanan",
-      12000000,
-      DateTime.now().subtract(const Duration(days: 3)),
-    ),
-    Transaction(
-      "Belanja Online",
-      -1200000,
-      DateTime.now().subtract(const Duration(days: 5)),
-    ),
-    Transaction(
-      "Topup E-Wallet",
-      -300000,
-      DateTime.now().subtract(const Duration(days: 7)),
-    ),
+    Transaction('Perang Baratayuda', 0, DateTime(2023, 5, 21)),
+    Transaction('Puntadewa', 0, DateTime(2023, 5, 22)),
+    Transaction('Puntadewa', 0, DateTime(2023, 5, 23)),
   ];
 
   @override
@@ -55,9 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         backgroundColor: Colors.amber[500],
         elevation: 0,
-        shape: const RoundedRectangleBorder(
-          // borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-        ),
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SingleChildScrollView(
@@ -65,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             _buildUserProfile(),
             _buildBalanceCard(),
-           
             _buildTransactionHistory(),
           ],
         ),
@@ -73,20 +53,26 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildUserProfile() {
+ Widget _buildUserProfile() {
   return Container(
     padding: const EdgeInsets.all(16),
-    color: Colors.amber,
+    decoration: const BoxDecoration(
+      color: Colors.amber,
+      borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(24),
+        bottomRight: Radius.circular(24),
+      ),
+    ),
     child: Row(
       children: [
         ClipOval(
-  child: Image.asset(
-    'assets/fotoku.jpg',
-    width: 60,
-    height: 60,
-    fit: BoxFit.cover,
-  ),
-),
+          child: Image.asset(
+            'assets/fotoku.jpg',
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+          ),
+        ),
         const SizedBox(width: 16),
         const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,13 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 }
 
-  Widget _buildBalanceCard() {
-    final formatter = NumberFormat.currency(
-      locale: 'id_ID',
-      symbol: 'Rp',
-      decimalDigits: 0,
-    );
 
+
+  Widget _buildBalanceCard() {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -155,25 +137,19 @@ class _HomeScreenState extends State<HomeScreen> {
           case 'Cerita':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => BaratayudaVideoPage()),
+              MaterialPageRoute(builder: (context) => CeritaPage()),
             );
             break;
           case 'Film':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TerimaPage()),
+              MaterialPageRoute(builder: (context) => FilmPage()),
             );
             break;
           case 'Suara':
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => QrpayPage()),
-            );
-            break;
-          case 'History':
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HistoryPage()),
+              MaterialPageRoute(builder: (context) => SuaraPage()),
             );
             break;
         }
@@ -181,14 +157,14 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.all(12),
+            decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: color),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(label),
         ],
       ),
@@ -196,22 +172,44 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildTransactionHistory() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const CardPerangBaratayuda(), 
-      const CardPerang2(),// Tampilkan kartu di bawah transaksi
-    ],
-  );
-}
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Text(
+            'Aktivitas Terakhir',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        // Menggunakan data transaksi untuk Card
+        CardPerangBaratayuda(transaction: transactions[0]),
+        CardPerang2(transaction: transactions[1]),
+        CardPerang3(transaction: transactions[2]),
+      ],
+    );
+  }
 }
 
-// Pindah ke luar _HomeScreenState
+class Transaction {
+  final String description;
+  final double amount;
+  final DateTime date;
+  Transaction(this.description, this.amount, this.date);
+}
+
+// Widget card dengan data dinamis
 class CardPerangBaratayuda extends StatelessWidget {
-  const CardPerangBaratayuda({super.key});
+  final Transaction transaction;
+  const CardPerangBaratayuda({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context) {
+    final formattedDate = DateFormat('dd MMM yyyy').format(transaction.date);
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -240,16 +238,26 @@ class CardPerangBaratayuda extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            const Expanded(
+            Expanded(
               child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  'Perang\nBaratayuda',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      transaction.description,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      'Tanggal: $formattedDate',
+                      style: const TextStyle(color: Colors.white70),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -261,10 +269,13 @@ class CardPerangBaratayuda extends StatelessWidget {
 }
 
 class CardPerang2 extends StatelessWidget {
-  const CardPerang2({super.key});
+  final Transaction transaction;
+  const CardPerang2({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context) {
+    final formattedDate = DateFormat('dd MMM yyyy').format(transaction.date);
+
     return Container(
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -289,13 +300,23 @@ class CardPerang2 extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Perang\nBaratayuda',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    transaction.description,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    'Tanggal: $formattedDate',
+                    style: const TextStyle(color: Colors.white70),
+                  ),
+                ],
               ),
             ),
           ),
@@ -305,10 +326,72 @@ class CardPerang2 extends StatelessWidget {
   }
 }
 
-class Transaction {
-  final String description;
-  final double amount;
-  final DateTime date;
+class CardPerang3 extends StatelessWidget {
+  final Transaction transaction;
+  const CardPerang3({super.key, required this.transaction});
 
-  Transaction(this.description, this.amount, this.date);
+  @override
+  Widget build(BuildContext context) {
+    final formattedDate = DateFormat('dd MMM yyyy').format(transaction.date);
+
+    return Container(
+      margin: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.amber,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      height: 160,
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(24),
+              bottomLeft: Radius.circular(24),
+            ),
+            child: Image.asset(
+              'assets/puntadewa.jpg',
+              height: double.infinity,
+              width: 140,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    transaction.description,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    'Tanggal: $formattedDate',
+                    style: const TextStyle(color: Colors.white70),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Dummy halaman yang belum kamu kasih kodenya (ganti dengan kode kamu sendiri)
+class BaratayudaVideoPage extends StatelessWidget {
+  const BaratayudaVideoPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Video Baratayuda")),
+      body: const Center(child: Text("Ini halaman video Baratayuda")),
+    );
+  }
 }

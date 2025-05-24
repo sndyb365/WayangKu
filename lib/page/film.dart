@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
-class SuaraPage extends StatelessWidget {
-  const SuaraPage({super.key});
+class FilmPage extends StatelessWidget {
+  const FilmPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> suaraList = [
+    final List<Map<String, String>> filmList = [
       {
         'title': 'Baratayuda',
-        'image': 'assets/suara/baratayuda.jpg',
+        'image': 'assets/film/baratayuda.jpg',
       },
       {
         'title': 'Ramayana',
-        'image': 'assets/suara/ramayana.jpg',
+        'image': 'assets/film/ramayana.jpg',
       },
       {
         'title': 'Petruk Dadi Ratu',
-        'image': 'assets/suara/petruk.jpg',
+        'image': 'assets/film/petruk.jpg',
       },
       {
         'title': 'Gatotkaca Gugur',
-        'image': 'assets/suara/gatotkaca.jpg',
+        'image': 'assets/film/gatotkaca.jpg',
       },
     ];
 
@@ -46,7 +46,7 @@ class SuaraPage extends StatelessWidget {
                     children: const [
                       SizedBox(height: 16),
                       Text(
-                        'Suara Wayang',
+                        'Daftar Film Wayang',
                         style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
@@ -55,7 +55,7 @@ class SuaraPage extends StatelessWidget {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        'Dengarkan suara dan cuplikan dialog dari tokoh-tokoh wayang.',
+                        'Tonton film-film wayang pilihan yang menghibur dan sarat makna.',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white70,
@@ -78,12 +78,12 @@ class SuaraPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            // GRID SUARA WAYANG
+            // GRID FILM
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: GridView.builder(
-                  itemCount: suaraList.length,
+                  itemCount: filmList.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 16,
@@ -91,10 +91,10 @@ class SuaraPage extends StatelessWidget {
                     childAspectRatio: 3 / 4,
                   ),
                   itemBuilder: (context, index) {
-                    final suara = suaraList[index];
+                    final film = filmList[index];
                     return GestureDetector(
                       onTap: () {
-                        // TODO: Navigasi ke halaman pemutar suara
+                        // TODO: Navigasi ke halaman video film
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -114,7 +114,7 @@ class SuaraPage extends StatelessWidget {
                             ClipRRect(
                               borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                               child: Image.asset(
-                                suara['image']!,
+                                film['image']!,
                                 height: 120,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
@@ -122,7 +122,7 @@ class SuaraPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              suara['title']!,
+                              film['title']!,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -133,7 +133,7 @@ class SuaraPage extends StatelessWidget {
                             const SizedBox(height: 8),
                             ElevatedButton(
                               onPressed: () {
-                                // TODO: Navigasi ke halaman pemutar suara atau mulai audio
+                                // TODO: Navigasi ke halaman film terkait
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
@@ -142,7 +142,7 @@ class SuaraPage extends StatelessWidget {
                                 ),
                               ),
                               child: Text(
-                                'Dengarkan',
+                                'Tonton',
                                 style: TextStyle(color: Colors.yellow[700]),
                               ),
                             ),
