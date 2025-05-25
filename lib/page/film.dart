@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:mbanking_app_flutter/page/baratayudavideo.dart';
 
 class FilmPage extends StatelessWidget {
   const FilmPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> filmList = [
+    final List<Map<String, dynamic>> filmList = [
       {
-        'title': 'Baratayuda',
-        'image': 'assets/film/baratayuda.jpg',
+        'title': 'Ratna Kumala Alengka',
+        'image': 'assets/ratna.jpg',
+        'page': const BaratayudaVideoPage(),
       },
       {
-        'title': 'Ramayana',
-        'image': 'assets/film/ramayana.jpg',
+        'title': 'Warangkaning Syukur Marang Sang Hyang',
+        'image': 'assets/warangkaning.jpg',
+        'page': const BaratayudaVideoPage(),
       },
       {
-        'title': 'Petruk Dadi Ratu',
-        'image': 'assets/film/petruk.jpg',
+        'title': 'Kijang Kencana',
+        'image': 'assets/kijang.jpg',
+        'page': const BaratayudaVideoPage(),
       },
       {
-        'title': 'Gatotkaca Gugur',
-        'image': 'assets/film/gatotkaca.jpg',
+        'title': 'Kisah Wayang Berdarah',
+        'image': 'assets/wayangberdarah.jpg',
+        'page': const BaratayudaVideoPage(),
       },
     ];
 
@@ -29,7 +34,6 @@ class FilmPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // HEADER DENGAN TOMBOL KEMBALI
             Stack(
               children: [
                 Container(
@@ -78,7 +82,6 @@ class FilmPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            // GRID FILM
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -94,7 +97,10 @@ class FilmPage extends StatelessWidget {
                     final film = filmList[index];
                     return GestureDetector(
                       onTap: () {
-                        // TODO: Navigasi ke halaman video film
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => film['page']),
+                        );
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -133,7 +139,10 @@ class FilmPage extends StatelessWidget {
                             const SizedBox(height: 8),
                             ElevatedButton(
                               onPressed: () {
-                                // TODO: Navigasi ke halaman film terkait
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => film['page']),
+                                );
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,

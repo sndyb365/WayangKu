@@ -1,40 +1,79 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:mbanking_app_flutter/page/baratayudaaudio.dart';
+import 'package:mbanking_app_flutter/page/ceritabaratayuda.dart';
 import 'package:mbanking_app_flutter/page/film.dart';
-import 'package:mbanking_app_flutter/page/history_page.dart';
+import 'package:mbanking_app_flutter/page/suara.dart';
 import 'package:mbanking_app_flutter/page/cerita.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mbanking_app_flutter/page/baratayudavideo.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
+    );
+  }
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Map<String, String> _localizedStrings = {};
+  String _currentLangCode = 'id';
+
   final List<Transaction> transactions = [
-    Transaction('Perang Baratayuda', 0, DateTime(2023, 5, 21)),
-    Transaction('Puntadewa', 0, DateTime(2023, 5, 22)),
-    Transaction('Puntadewa', 0, DateTime(2023, 5, 23)),
+    Transaction('Perang Baratayuda', 0, DateTime(2025, 5, 26)),
+    Transaction('Ki Anom Suroto – Lakon Bimo Labuh', 0, DateTime(2025, 5, 26)),
+    Transaction('Ratna Kumala Alengka', 0, DateTime(2025, 5, 26)),
   ];
- @override
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLanguageFile(_currentLangCode);
+  }
+
+  Future<void> _loadLanguageFile(String langCode) async {
+    try {
+      final jsonString = await rootBundle.loadString('assets/lang/$langCode.json');
+      final Map<String, dynamic> jsonMap = json.decode(jsonString);
+      setState(() {
+        _localizedStrings = jsonMap.map((key, value) => MapEntry(key, value.toString()));
+        _currentLangCode = langCode;
+      });
+      print('Loaded language $langCode with keys: ${_localizedStrings.keys}');
+    } catch (e) {
+      print('Error loading language file: $e');
+    }
+  }
+
+  String tr(String key) {
+    return _localizedStrings[key] ?? key;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-          ),
-        ),
-        title: const Text(
-          'WayangKu',
-          style: TextStyle(
+        title: Text(
+          tr('title'),
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 22,
@@ -42,55 +81,36 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.amber[500],
+        backgroundColor: Colors.amber,
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle.light,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: DropdownButton<String>(
+              dropdownColor: Colors.amber[300],
+              underline: const SizedBox(),
+              icon: const Icon(Icons.language, color: Colors.white),
+              value: _currentLangCode,
+              items: const [
+                DropdownMenuItem(
+                  value: 'id',
+                  child: Text('ID', style: TextStyle(color: Colors.white)),
+                ),
+                DropdownMenuItem(
+                  value: 'jv',
+                  child: Text('JV', style: TextStyle(color: Colors.white)),
+                ),
+              ],
+              onChanged: (value) {
+                if (value != null && value != _currentLangCode) {
+                  _loadLanguageFile(value);
+                }
+              },
+            ),
+          ),
+        ],
       ),
-
-      // Drawer
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: Colors.amber[500]),
-              child: const Text(
-                'Menu WayangKu',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Beranda'),
-              onTap: () {
-                Navigator.pushNamed(context, '/home');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.video_library),
-              title: const Text('Suara Wayang'),
-              onTap: () {
-                Navigator.pushNamed(context, '/cerita');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.movie),
-              title: const Text('Film Wayang'),
-              onTap: () {
-                Navigator.pushNamed(context, '/film');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Pengaturan'),
-              onTap: () {
-                Navigator.pushNamed(context, '/settings');
-              },
-            ),
-          ],
-        ),
-      ),
-
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -103,56 +123,51 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
-
-
- Widget _buildUserProfile() {
-  return Container(
-    padding: const EdgeInsets.all(16),
-    decoration: const BoxDecoration(
-      color: Colors.amber,
-      borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(24),
-        bottomRight: Radius.circular(24),
-      ),
-    ),
-    child: Row(
-      children: [
-        ClipOval(
-          child: Image.asset(
-            'assets/fotoku.jpg',
-            width: 60,
-            height: 60,
-            fit: BoxFit.cover,
-          ),
+  Widget _buildUserProfile() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: const BoxDecoration(
+        color: Colors.amber,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
         ),
-        const SizedBox(width: 16),
-        const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Sandy Bimo H.',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+      ),
+      child: Row(
+        children: [
+          ClipOval(
+            child: Image.asset(
+              'assets/fotoku.jpg',
+              width: 60,
+              height: 60,
+              fit: BoxFit.cover,
             ),
-            Text('Mahasiswa UNY'),
-          ],
-        )
-      ],
-    ),
-  );
-}
-
-
+          ),
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                tr('profile_name'),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(tr('profile_role')),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildBalanceCard() {
     return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
           colors: [Colors.amber[500]!, Colors.amber[500]!],
         ),
         borderRadius: BorderRadius.circular(16),
@@ -164,18 +179,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(20),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildActionButton(Icons.book, 'Cerita', Colors.amber),
-              _buildActionButton(Icons.movie, 'Film', Colors.amber),
-              _buildActionButton(Icons.volume_up, 'Suara', Colors.amber),
+              _buildActionButton(Icons.book, 'cerita', tr('balance_card_cerita')),
+              _buildActionButton(Icons.movie, 'film', tr('balance_card_film')),
+              _buildActionButton(Icons.volume_up, 'suara', tr('balance_card_suara')),
             ],
           ),
         ],
@@ -183,27 +195,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildActionButton(IconData icon, String label, Color color) {
+  Widget _buildActionButton(IconData icon, String labelId, String displayLabel) {
     return GestureDetector(
       onTap: () {
-        switch (label) {
-          case 'Cerita':
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CeritaPage()),
-            );
+        switch (labelId) {
+          case 'cerita':
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const CeritaPage()));
             break;
-          case 'Film':
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => FilmPage()),
-            );
+          case 'film':
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const FilmPage()));
             break;
-          case 'Suara':
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SuaraPage()),
-            );
+          case 'suara':
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const SuaraPage()));
             break;
         }
       },
@@ -215,10 +218,10 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.white,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: color),
+            child: Icon(icon, color: Colors.amber),
           ),
           const SizedBox(height: 8),
-          Text(label),
+          Text(displayLabel),
         ],
       ),
     );
@@ -228,20 +231,34 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Text(
-            'Aktivitas Terakhir',
-            style: TextStyle(
+            tr('last_activity'),
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        // Menggunakan data transaksi untuk Card
-        CardPerangBaratayuda(transaction: transactions[0]),
-        CardPerang2(transaction: transactions[1]),
-        CardPerang3(transaction: transactions[2]),
+        CardPerang(
+          transaction: transactions[0],
+          imageAsset: 'assets/baratayuda.jpg',
+          destination: const BaratayudaCeritaPage(),
+          dateLabel: tr('date_label'),
+        ),
+        CardPerang(
+          transaction: transactions[1],
+          imageAsset: 'assets/lakonbimo.jpg',
+          destination: const BaratayudaCeritaPage(),
+          dateLabel: tr('date_label'),
+        ),
+        CardPerang(
+          transaction: transactions[2],
+          imageAsset: 'assets/ratna.jpg',
+          destination: const BaratayudaVideoPage(),
+          dateLabel: tr('date_label'),
+        ),
       ],
     );
   }
@@ -251,13 +268,23 @@ class Transaction {
   final String description;
   final double amount;
   final DateTime date;
+
   Transaction(this.description, this.amount, this.date);
 }
 
-// Widget card dengan data dinamis
-class CardPerangBaratayuda extends StatelessWidget {
+class CardPerang extends StatelessWidget {
   final Transaction transaction;
-  const CardPerangBaratayuda({super.key, required this.transaction});
+  final String imageAsset;
+  final Widget destination;
+  final String dateLabel;
+
+  const CardPerang({
+    super.key,
+    required this.transaction,
+    required this.imageAsset,
+    required this.destination,
+    required this.dateLabel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -265,18 +292,15 @@ class CardPerangBaratayuda extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const BaratayudaVideoPage()),
-        );
+        Navigator.push(context, MaterialPageRoute(builder: (_) => destination));
       },
       child: Container(
         margin: const EdgeInsets.all(16),
+        height: 160,
         decoration: BoxDecoration(
           color: Colors.amber,
           borderRadius: BorderRadius.circular(24),
         ),
-        height: 160,
         child: Row(
           children: [
             ClipRRect(
@@ -285,7 +309,7 @@ class CardPerangBaratayuda extends StatelessWidget {
                 bottomLeft: Radius.circular(24),
               ),
               child: Image.asset(
-                'assets/baratayuda.jpg',
+                imageAsset,
                 height: double.infinity,
                 width: 140,
                 fit: BoxFit.cover,
@@ -293,7 +317,7 @@ class CardPerangBaratayuda extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -307,7 +331,7 @@ class CardPerangBaratayuda extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'Tanggal: $formattedDate',
+                      '$dateLabel: $formattedDate',
                       style: const TextStyle(color: Colors.white70),
                     ),
                   ],
@@ -317,134 +341,6 @@ class CardPerangBaratayuda extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class CardPerang2 extends StatelessWidget {
-  final Transaction transaction;
-  const CardPerang2({super.key, required this.transaction});
-
-  @override
-  Widget build(BuildContext context) {
-    final formattedDate = DateFormat('dd MMM yyyy').format(transaction.date);
-
-    return Container(
-      margin: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.amber,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      height: 160,
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(24),
-              bottomLeft: Radius.circular(24),
-            ),
-            child: Image.asset(
-              'assets/puntadewa.jpg',
-              height: double.infinity,
-              width: 140,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    transaction.description,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    'Tanggal: $formattedDate',
-                    style: const TextStyle(color: Colors.white70),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CardPerang3 extends StatelessWidget {
-  final Transaction transaction;
-  const CardPerang3({super.key, required this.transaction});
-
-  @override
-  Widget build(BuildContext context) {
-    final formattedDate = DateFormat('dd MMM yyyy').format(transaction.date);
-
-    return Container(
-      margin: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.amber,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      height: 160,
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(24),
-              bottomLeft: Radius.circular(24),
-            ),
-            child: Image.asset(
-              'assets/puntadewa.jpg',
-              height: double.infinity,
-              width: 140,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    transaction.description,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    'Tanggal: $formattedDate',
-                    style: const TextStyle(color: Colors.white70),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// Dummy halaman yang belum kamu kasih kodenya (ganti dengan kode kamu sendiri)
-class BaratayudaVideoPage extends StatelessWidget {
-  const BaratayudaVideoPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Video Baratayuda")),
-      body: const Center(child: Text("Ini halaman video Baratayuda")),
     );
   }
 }
