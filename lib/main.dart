@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:mbanking_app_flutter/components/card_screen.dart';
-import 'package:mbanking_app_flutter/home_screen.dart';
-import 'package:mbanking_app_flutter/components/profile_screen.dart';
+
 import 'package:mbanking_app_flutter/page/cerita.dart';
 import 'package:mbanking_app_flutter/page/film.dart';
 import 'package:mbanking_app_flutter/page/suara.dart';
+import 'package:mbanking_app_flutter/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,42 +70,13 @@ class _MainNavigationState extends State<MainNavigation> {
     const HomeScreen(),
     const CeritaPage(),
     const FilmPage(),
-    SuaraPage(),
+    const SuaraPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("WayangKu"),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<Locale>(
-                value: context.locale,
-                icon: const Icon(Icons.language, color: Colors.white),
-                dropdownColor: Colors.amber,
-                onChanged: (Locale? locale) {
-                  if (locale != null) {
-                    context.setLocale(locale);
-                  }
-                },
-                items: const [
-                  DropdownMenuItem(
-                    value: Locale('id'),
-                    child: Text('Indonesia'),
-                  ),
-                  DropdownMenuItem(
-                    value: Locale('jv'),
-                    child: Text('Jawa'),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+      
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

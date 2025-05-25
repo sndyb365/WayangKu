@@ -1,5 +1,6 @@
 {
   "title": "WayangKu",
+  "subtitle": "Pilih salah satu Film wayang untuk ditonton dan dipelajari lebih lanjut.",
   "profile_name": "Sandy Bimo H.",
   "profile_role": "Mahasiswa UNY",
   "balance_card_cerita": "Cerita",
@@ -7,5 +8,18 @@
   "balance_card_suara": "Suara",
   "last_activity": "Aktivitas Terakhir",
   "date_label": "Tanggal",
-  "language": "Bahasa"
+  "language": "Bahasa",
+  "judul": "Cerita Wayang",
+  "deskripsi": "Pilih salah satu cerita wayang untuk ditonton dan dipelajari lebih lanjut.",
+   "deskripsi_cerita": "Baca cerita cerita wayang untuk dipelajari dan menambah ilmu.",
+  "lihat": "Lihat",
+  "judul_film": "Film Wayang",
+  "deskripsi_film": "Berikut daftar film wayang yang bisa kamu tonton.",
+  "titlesuara": "Suara Wayang",
+  "subtitlesuara": "Dengarkan suara - suara wayang pilihan yang menghibur dan sarat makna",
+  "dengarkan":"Dengarkan",
+  "titlecerita": "Cerita Wayang",
+  "subtitlecerita": "Pilih salah satu cerita wayang untuk ditonton dan dipelajari lebih lanjut.",
+  "baca": "Lihat"
 }
+

@@ -1,5 +1,6 @@
 {
   "title": "WayangKu",
+  "subtitle": "Pilih salah siji Film wayang kanggo ditonton lan sinau luwih lanjut.",
   "profile_name": "Sandy Bimo H.",
   "profile_role": "Mahasiswa UNY",
   "balance_card_cerita": "Crita",
@@ -7,5 +8,18 @@
   "balance_card_suara": "Swara",
   "last_activity": "Aktivitas Pungkasan",
   "date_label": "Tanggal",
-  "language": "Basa"
+  "language": "Basa",
+  "judul": "Crita Wayang",
+  "deskripsi": "Pilih salah siji crita wayang kanggo ditonton lan sinau luwih lanjut.",
+  "judul_film": "Film Wayang",
+  "deskripsi_cerita": "Maca cerita cerita wayang kanggo sinau lan nambah ilmu.",
+  "lihat": "Delok",
+  "titlesuara": "Suara Wayang",
+  "subtitlesuara": "Rungokna swara-swara wayang pilihan sing nyenengake lan kebak teges",
+  "dengarkan":"Rungokke",
+  "titlecerita": "Crita Wayang",
+  "subtitlecerita": "Pilih salah siji crita wayang kanggo ditonton lan sinau luwih lanjut.",
+  "baca": "Delok"
 }
+
+
