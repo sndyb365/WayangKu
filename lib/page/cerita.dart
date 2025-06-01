@@ -1,30 +1,13 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-// Contoh halaman detail cerita wayang (bisa kamu ganti sesuai kebutuhan)
-class CeritaDetailPage extends StatelessWidget {
-  final String title;
-  final String description;
-
-  const CeritaDetailPage({Key? key, required this.title, required this.description}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Colors.yellow[700],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Text(description, style: const TextStyle(fontSize: 16)),
-      ),
-    );
-  }
-}
-
+import 'package:mbanking_app_flutter/page/ceritabaratayuda.dart';
+import 'package:mbanking_app_flutter/page/ceritagatot.dart';
+import 'package:mbanking_app_flutter/page/ceritapetruk.dart';
+import 'package:mbanking_app_flutter/page/ceritaramayana.dart';
+import 'package:mbanking_app_flutter/page/petrukvideo.dart';
+import 'package:mbanking_app_flutter/page/semarvideo.dart';
+import 'package:mbanking_app_flutter/page/werkudaravideo.dart';
 class CeritaPage extends StatefulWidget {
   const CeritaPage({Key? key}) : super(key: key);
 
@@ -68,7 +51,6 @@ class _CeritaPageState extends State<CeritaPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Contoh data gambar cerita wayang, sesuaikan dengan asetmu
     final List<String> ceritaImages = [
       'assets/petruk.jpg',
       'assets/baratayuda.jpg',
@@ -76,25 +58,9 @@ class _CeritaPageState extends State<CeritaPage> {
       'assets/ramayana.jpg',
     ];
 
-    // Judul cerita dari JSON, fallback ke list default
     List<String> ceritaTitles = _langData != null && _langData!['ceritas'] != null
         ? List<String>.from(_langData!['ceritas'])
-        : [
-            'Petruk',
-            'Perang Bharatayuda',
-            'Lahirnya Gatotkaca',
-            'Ramayana'
-        ];
-
-    // Deskripsi singkat dari JSON (optional), fallback ke kosong
-    List<String> ceritaDescriptions = _langData != null && _langData!['descriptions'] != null
-        ? List<String>.from(_langData!['descriptions'])
-        : [
-            'Kisah tentang lima bersaudara Pandawa yang gagah berani.',
-            'Epik Ramayana dengan Rama dan Shinta.',
-            'Perang besar di Mahabharata penuh intrik dan heroisme.',
-            'Legenda pahlawan Gatotkaca dengan kekuatan super.',
-          ];
+        : ['Petruk', 'Perang Bharatayuda', 'Lahirnya Gatotkaca', 'Ramayana'];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -117,9 +83,7 @@ class _CeritaPageState extends State<CeritaPage> {
                     children: [
                       const SizedBox(height: 16),
                       Text(
-                        _langData != null
-                            ? (_langData!['titlecerita'] ?? 'Cerita Wayang')
-                            : 'Cerita Wayang',
+                        tr('titlecerita').isNotEmpty ? tr('titlecerita') : 'Cerita Wayang',
                         style: const TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
@@ -128,7 +92,7 @@ class _CeritaPageState extends State<CeritaPage> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        tr('subtitle').isNotEmpty
+                        tr('subtitlecerita').isNotEmpty
                             ? tr('subtitlecerita')
                             : 'Nikmati kisah-kisah wayang yang sarat makna dan budaya.',
                         style: const TextStyle(
@@ -160,14 +124,8 @@ class _CeritaPageState extends State<CeritaPage> {
                       icon: const Icon(Icons.language, color: Colors.white),
                       style: const TextStyle(color: Colors.white),
                       items: const [
-                        DropdownMenuItem(
-                          value: 'id',
-                          child: Text('ID', style: TextStyle(color: Colors.white)),
-                        ),
-                        DropdownMenuItem(
-                          value: 'jv',
-                          child: Text('JV', style: TextStyle(color: Colors.white)),
-                        ),
+                        DropdownMenuItem(value: 'id', child: Text('ID')),
+                        DropdownMenuItem(value: 'jv', child: Text('JV')),
                       ],
                       onChanged: (value) {
                         if (value != null && value != _currentLangCode) {
@@ -194,21 +152,35 @@ class _CeritaPageState extends State<CeritaPage> {
                   itemBuilder: (context, index) {
                     final title = ceritaTitles[index];
                     final image = ceritaImages[index];
-                    final description = ceritaDescriptions.length > index ? ceritaDescriptions[index] : '';
+
+                    // Arahkan ke halaman berbeda
+                    void openDetailPage() {
+                      Widget page;
+                      switch (index) {
+                        case 0:
+                          page = const PetrukCeritaPage();
+                          break;
+                        case 1:
+                          page = const BaratayudaCeritaPage();
+                          break;
+                        case 2:
+                          page = const GatotkacaCeritaPage();
+                          break;
+                        case 3:
+                          page = const RamayanaCeritaPage();
+                          break;
+                        default:
+                          page = const BaratayudaCeritaPage();
+                      }
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => page),
+                      );
+                    }
 
                     return GestureDetector(
-                      onTap: () {
-                        // Buka halaman detail cerita
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CeritaDetailPage(
-                              title: title,
-                              description: description,
-                            ),
-                          ),
-                        );
-                      },
+                      onTap: openDetailPage,
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.yellow[700],
@@ -245,17 +217,7 @@ class _CeritaPageState extends State<CeritaPage> {
                             ),
                             const SizedBox(height: 8),
                             ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CeritaDetailPage(
-                                      title: title,
-                                      description: description,
-                                    ),
-                                  ),
-                                );
-                              },
+                              onPressed: openDetailPage,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
@@ -263,7 +225,7 @@ class _CeritaPageState extends State<CeritaPage> {
                                 ),
                               ),
                               child: Text(
-                                _langData != null ? (_langData!['baca'] ?? 'Baca') : 'Baca',
+                                tr('baca').isNotEmpty ? tr('baca') : 'Baca',
                                 style: TextStyle(color: Colors.yellow[700]),
                               ),
                             ),

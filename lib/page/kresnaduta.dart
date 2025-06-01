@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-class BaratayudaAudioPage extends StatefulWidget {
-  const BaratayudaAudioPage({super.key});
+class KresnaDuta extends StatefulWidget {
+  const KresnaDuta({super.key});
 
   @override
-  State<BaratayudaAudioPage> createState() => _BaratayudaAudioPageState();
+  State<KresnaDuta> createState() => _KresnaDutaState();
 }
 
-class _BaratayudaAudioPageState extends State<BaratayudaAudioPage> {
+class _KresnaDutaState extends State<KresnaDuta> {
   final AudioPlayer _player = AudioPlayer();
   bool _isMicOn = false;
   String _selectedLanguage = 'id';
 
   final Map<String, String> cerita = {
-    'id': '''Perang Baratayuda adalah perang saudara besar-besaran antara keluarga Pandawa dan Kurawa, klimaks dari kisah Mahabharata, yang diadaptasi di Indonesia sebagai wayang dan kakawin. Perang ini merupakan perebutan kekuasaan antara kedua keluarga keturunan Barata, dengan Pandawa sebagai lambang kebaikan dan Kurawa sebagai lambang kejahatan.''',
-    'jv': '''Perang Baratayuda iku perang saudara gedhe antarane kulawarga Pandawa lan Kurawa, dadi puncak saka crita Mahabharata, sing diadaptasi ing Indonesia dadi wayang lan kakawin. Perang iki dadi rebutan panguwasa antarane loro kulawarga keturunan Barata, kanthi Pandawa dadi lambang kabecikan lan Kurawa dadi lambang ala.''',
+    'id': '''Kresna Duta adalah utusan dan penasihat dari keluarga Pandawa dalam kisah Mahabharata. Ia dikenal sebagai sosok bijaksana dan cerdas yang berperan sebagai diplomat untuk menyelesaikan konflik tanpa harus terjadinya perang. Kresna menggunakan kebijaksanaan dan kata-kata yang tajam untuk mengingatkan dan menasehati para tokoh agar perdamaian tetap terjaga. Dalam pewayangan Jawa, Kresna Duta sering menjadi simbol diplomasi dan pengendalian diri di tengah ketegangan dan konflik besar.''',
+    'jv': '''Kresna Duta iku utusan lan penasihat saka kulawarga Pandawa ing crita Mahabharata. Dheweke dikenal minangka sosok wicaksana lan pinter sing dadi diplomat kanggo ngrampungake konflik tanpa kudu perang. Kresna nganggo kawicaksanan lan tembung-tembung sing tajam kanggo ngelingake lan menehi pitutur marang para tokoh supaya tentrem tetep ana. Ing pewayangan Jawa, Kresna Duta asring dadi simbol diplomasi lan ngendhaleni awak ing tengah ketegangan lan konflik gedhe.''',
   };
 
   void _toggleMic() async {
     if (_isMicOn) {
       await _player.pause();
     } else {
-      await _player.play(AssetSource('lakonbrotoyudo.mp3'));
+      await _player.play(AssetSource('kresnaduta.mp3'));
     }
 
     setState(() {
@@ -151,9 +151,9 @@ class _BaratayudaAudioPageState extends State<BaratayudaAudioPage> {
                       color: Colors.yellow[700],
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: const Text(
-                      'Perang Baratayuda',
-                      style: TextStyle(
+                    child: Text(
+                      'Kresna Duta',
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,

@@ -11,6 +11,12 @@ class BaratayudaVideoPage extends StatefulWidget {
 class _BaratayudaVideoPageState extends State<BaratayudaVideoPage> {
   late VideoPlayerController _controller;
   bool _isPlaying = false;
+  String _selectedLanguage = 'id';
+
+  final Map<String, String> descriptions = {
+    'id': '''Perang Baratayuda adalah perang saudara besar-besaran antara keluarga Pandawa dan Kurawa, klimaks dari kisah Mahabharata, yang diadaptasi di Indonesia sebagai wayang dan kakawin. Perang ini merupakan perebutan kekuasaan antara kedua keluarga keturunan Barata, dengan Pandawa sebagai lambang kebaikan dan Kurawa sebagai lambang kejahatan.''',
+    'jv': '''Perang Baratayuda yaiku perang gedhé antarane kulawarga Pandhawa lan Kurawa, pucuking konflik saka epos Mahabharata sing diadaptasi dadi wayang lan kakawin ing Indonesia. Perang iki dadi perebutan kuwasa antarane kulawarga keturunan Barata, kanthi Pandhawa minangka lambang becik lan Kurawa minangka lambang ala.''',
+  };
 
   @override
   void initState() {
@@ -84,6 +90,54 @@ class _BaratayudaVideoPageState extends State<BaratayudaVideoPage> {
                     ),
                   ),
                 ),
+                Positioned(
+                  top: 12,
+                  right: 12,
+                  child: PopupMenuButton<String>(
+                    icon: Icon(Icons.language, color: Colors.yellow[700]),
+                    onSelected: (value) {
+                      setState(() {
+                        _selectedLanguage = value;
+                      });
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem<String>(
+                        value: 'id',
+                        child: Container(
+                          color: Colors.orange[400],
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          alignment: Alignment.center,
+                          child: const Text(
+                            'ID',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                      PopupMenuItem<String>(
+                        value: 'jv',
+                        child: Container(
+                          color: Colors.orange[600],
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          alignment: Alignment.center,
+                          child: const Text(
+                            'JV',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                    color: Colors.transparent,
+                    elevation: 0,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 16),
@@ -121,41 +175,19 @@ class _BaratayudaVideoPageState extends State<BaratayudaVideoPage> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Perang Baratayuda adalah perang saudara besar-besaran antara keluarga Pandawa dan Kurawa, klimaks dari kisah Mahabharata, yang diadaptasi di Indonesia sebagai wayang dan kakawin. Perang ini merupakan perebutan kekuasaan antara kedua keluarga keturunan Barata, dengan Pandawa sebagai lambang kebaikan dan Kurawa sebagai lambang kejahatan.',
+                    descriptions[_selectedLanguage] ?? descriptions['id']!,
                     style: TextStyle(
-                      color: Colors.orange[800],
+                      color: Colors.amber[400],
                       fontSize: 14,
                       height: 1.5,
                     ),
                     textAlign: TextAlign.justify,
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.orange,
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.palette),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.mic),
-            label: '',
-          ),
-        ],
       ),
     );
   }

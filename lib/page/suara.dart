@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mbanking_app_flutter/page/baratayudavideo.dart';
 import 'package:mbanking_app_flutter/page/baratayudaaudio.dart';
+import 'package:mbanking_app_flutter/page/kresnaduta.dart';
+
 
 class SuaraPage extends StatefulWidget {
   const SuaraPage({Key? key}) : super(key: key);
@@ -57,18 +59,6 @@ class _SuaraPageState extends State<SuaraPage> {
               'title': 'Ki Wahyu Dunung Raharjo – Lakon Brotoyudo',
               'image': 'assets/lakonbrotoyudo.jpg',
             },
-            {
-              'title': 'Ki Anom Suroto – Lakon Kresna Duta',
-              'image': 'assets/lakonkresno.jpg',
-            },
-            {
-              'title': 'Ki Hadi Sugito – Lakon Begawan Sukma Lelana',
-              'image': 'assets/lakonbegawan.jpg',
-            },
-            {
-              'title': 'Ki Anom Suroto – Lakon Bimo Labuh',
-              'image': 'assets/lakonbimo.jpg',
-            },
           ];
 
     // Karena widget tidak bisa disimpan di JSON, pasang ulang page secara manual dengan title:
@@ -78,12 +68,6 @@ class _SuaraPageState extends State<SuaraPage> {
 
       if (title == 'Ki Wahyu Dunung Raharjo – Lakon Brotoyudo') {
         page = const BaratayudaAudioPage();
-      } else if (title == 'Ki Anom Suroto – Lakon Kresna Duta') {
-        page = const BaratayudaVideoPage();
-      } else if (title == 'Ki Hadi Sugito – Lakon Begawan Sukma Lelana') {
-        page = const BaratayudaVideoPage();
-      } else if (title == 'Ki Anom Suroto – Lakon Bimo Labuh') {
-        page = const BaratayudaVideoPage();
       }
 
       return {
