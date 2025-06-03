@@ -1,16 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
-import 'package:mbanking_app_flutter/page/baratayudaaudio.dart';
-import 'package:mbanking_app_flutter/page/ceritabaratayuda.dart';
-import 'package:mbanking_app_flutter/page/film.dart';
-import 'package:mbanking_app_flutter/page/suara.dart';
-import 'package:mbanking_app_flutter/page/cerita.dart';
-import 'package:mbanking_app_flutter/page/baratayudavideo.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'package:mbanking_app_flutter/page/baratayudaaudio.dart';
+import 'package:mbanking_app_flutter/page/ceritabaratayuda.dart';
+import 'package:mbanking_app_flutter/page/film.dart';
+import 'package:mbanking_app_flutter/page/kuispage.dart';
+import 'package:mbanking_app_flutter/page/login_screen.dart';
+import 'package:mbanking_app_flutter/page/profile_screen.dart';
+import 'package:mbanking_app_flutter/page/register_screen.dart';
+import 'package:mbanking_app_flutter/page/suara.dart';
+import 'package:mbanking_app_flutter/page/cerita.dart';
+import 'package:mbanking_app_flutter/page/baratayudavideo.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -19,9 +23,12 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(),
+      ),
+      home: const HomeScreen(),
     );
   }
 }
@@ -35,6 +42,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Map<String, String> _localizedStrings = {};
   String _currentLangCode = 'id';
+
+  final List<String> userData = ['Sandy Bimo Harjudanto', 'sandybimo@email.com'];
 
   final List<Transaction> transactions = [
     Transaction('Perang Baratayuda', 0, DateTime(2025, 5, 26)),
@@ -56,9 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
         _localizedStrings = jsonMap.map((key, value) => MapEntry(key, value.toString()));
         _currentLangCode = langCode;
       });
-      print('Loaded language $langCode with keys: ${_localizedStrings.keys}');
     } catch (e) {
-      print('Error loading language file: $e');
+      debugPrint('Error loading language file: $e');
     }
   }
 
@@ -73,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(
           tr('title'),
-          style: const TextStyle(
+          style: GoogleFonts.poppins(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 22,
@@ -93,14 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.language, color: Colors.white),
               value: _currentLangCode,
               items: const [
-                DropdownMenuItem(
-                  value: 'id',
-                  child: Text('ID', style: TextStyle(color: Colors.white)),
-                ),
-                DropdownMenuItem(
-                  value: 'jv',
-                  child: Text('JV', style: TextStyle(color: Colors.white)),
-                ),
+                DropdownMenuItem(value: 'id', child: Text('ID', style: TextStyle(color: Colors.white))),
+                DropdownMenuItem(value: 'jv', child: Text('JV', style: TextStyle(color: Colors.white))),
               ],
               onChanged: (value) {
                 if (value != null && value != _currentLangCode) {
@@ -114,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildUserProfile(),
+            _buildUserProfile(userData[0], userData[1]),
             _buildBalanceCard(),
             _buildTransactionHistory(),
           ],
@@ -123,41 +125,44 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildUserProfile() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: const BoxDecoration(
-        color: Colors.amber,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(24),
-          bottomRight: Radius.circular(24),
+  Widget _buildUserProfile(String name, String email) {
+    return GestureDetector(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileScreen())),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: const BoxDecoration(
+          color: Colors.amber,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(24),
+            bottomRight: Radius.circular(24),
+          ),
         ),
-      ),
-      child: Row(
-        children: [
-          ClipOval(
-            child: Image.asset(
-              'assets/fotoku.jpg',
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                tr('profile_name'),
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+        child: Row(
+          children: [
+            ClipOval(
+              child: Image.asset(
+                'assets/fotoku.jpg',
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
               ),
-              Text(tr('profile_role')),
-            ],
-          ),
-        ],
+            ),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+                Text(
+                  email,
+                  style: GoogleFonts.poppins(color: Colors.white70),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -167,9 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.amber[500]!, Colors.amber[500]!],
-        ),
+        gradient: LinearGradient(colors: [Colors.amber[500]!, Colors.amber[500]!]),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -183,11 +186,12 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           const SizedBox(height: 24),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildActionButton(Icons.book, 'cerita', tr('balance_card_cerita')),
               _buildActionButton(Icons.movie, 'film', tr('balance_card_film')),
               _buildActionButton(Icons.volume_up, 'suara', tr('balance_card_suara')),
+              _buildActionButton(Icons.quiz, 'kuis', tr('balance_card_kuis')),
             ],
           ),
         ],
@@ -208,6 +212,9 @@ class _HomeScreenState extends State<HomeScreen> {
           case 'suara':
             Navigator.push(context, MaterialPageRoute(builder: (_) => const SuaraPage()));
             break;
+          case 'kuis':
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const KuisPage()));
+            break;
         }
       },
       child: Column(
@@ -221,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Icon(icon, color: Colors.amber),
           ),
           const SizedBox(height: 8),
-          Text(displayLabel),
+          Text(displayLabel, style: GoogleFonts.poppins()),
         ],
       ),
     );
@@ -232,13 +239,10 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Text(
             tr('last_activity'),
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
         CardPerang(
@@ -268,7 +272,6 @@ class Transaction {
   final String description;
   final double amount;
   final DateTime date;
-
   Transaction(this.description, this.amount, this.date);
 }
 
@@ -291,9 +294,7 @@ class CardPerang extends StatelessWidget {
     final formattedDate = DateFormat('dd MMM yyyy').format(transaction.date);
 
     return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => destination));
-      },
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => destination)),
       child: Container(
         margin: const EdgeInsets.all(16),
         height: 160,
@@ -323,7 +324,7 @@ class CardPerang extends StatelessWidget {
                   children: [
                     Text(
                       transaction.description,
-                      style: const TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -332,7 +333,7 @@ class CardPerang extends StatelessWidget {
                     const Spacer(),
                     Text(
                       '$dateLabel: $formattedDate',
-                      style: const TextStyle(color: Colors.white70),
+                      style: GoogleFonts.poppins(color: Colors.white70),
                     ),
                   ],
                 ),

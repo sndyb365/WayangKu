@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'package:mbanking_app_flutter/page/login_screen.dart';
+import 'package:mbanking_app_flutter/page/register_screen.dart';
+import 'package:mbanking_app_flutter/page/profile_screen.dart';
+
 import 'package:mbanking_app_flutter/page/cerita.dart';
 import 'package:mbanking_app_flutter/page/film.dart';
 import 'package:mbanking_app_flutter/page/suara.dart';
@@ -14,15 +18,15 @@ void main() async {
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('id'), Locale('jv')],
-      path: 'assets/lang/', // path ke file JSON bahasa
+      path: 'assets/lang/', // path to your localization JSON files
       fallbackLocale: const Locale('id'),
-      child: const MbakingApp(),
+      child: const WayangkuApp(),
     ),
   );
 }
 
-class MbakingApp extends StatelessWidget {
-  const MbakingApp({super.key});
+class WayangkuApp extends StatelessWidget {
+  const WayangkuApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,7 @@ class MbakingApp extends StatelessWidget {
       localeResolutionCallback: (locale, supportedLocales) {
         if (locale == null) return const Locale('id');
         if (locale.languageCode == 'jv') {
-          // fallback ke 'id' karena MaterialLocalization belum support jv
+          // fallback to 'id' since MaterialLocalization doesn’t support 'jv'
           return const Locale('id');
         }
         if (supportedLocales.any((e) => e.languageCode == locale.languageCode)) {
@@ -51,7 +55,15 @@ class MbakingApp extends StatelessWidget {
         }
         return const Locale('id');
       },
-      home: const MainNavigation(),
+
+      // Use named routes including your login flow and main app navigation
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LoginScreen(),
+        '/register': (context) => RegisterScreen(),
+        '/main': (context) => const HomeScreen(),
+        '/profile': (context) => const ProfileScreen(),
+      },
     );
   }
 }
@@ -76,36 +88,16 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        onTap: (index) => setState(() => _currentIndex = index),
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white70,
         backgroundColor: Colors.amber,
         items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.home_filled),
-            label: 'home'.tr(),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.book),
-            label: 'story'.tr(),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.movie),
-            label: 'film'.tr(),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.volume_up),
-            label: 'sound'.tr(),
-          ),
+
         ],
       ),
     );
