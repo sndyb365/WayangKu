@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:mbanking_app_flutter/page/baratayudavideo.dart';
 import 'package:mbanking_app_flutter/page/petrukvideo.dart';
 import 'package:mbanking_app_flutter/page/werkudaravideo.dart';
-import 'package:mbanking_app_flutter/page/semarvideo.dart';
 import 'package:video_player/video_player.dart';
 
 // Halaman detail film dengan video player

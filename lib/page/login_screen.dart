@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mbanking_app_flutter/home_screen.dart';
+import 'package:mbanking_app_flutter/page/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,12 +16,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final Map<String, Map<String, String>> localizedTexts = {
     'id': {
       'welcome': 'Selamat Datang\ndi WayangKu',
-      'button': 'Silahkan Masuk',
+      'buttonLogin': 'Masuk',
+      'buttonRegister': 'Daftar',
       'switchLang': 'Jawa',
     },
     'jv': {
       'welcome': 'Sugeng Rawuh\ning WayangKu',
-      'button': 'Monggo Mlebet',
+      'buttonLogin': 'Mlebet',
+      'buttonRegister': 'Ndaftar',
       'switchLang': 'Indonesia',
     },
   };
@@ -78,18 +81,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  ElevatedButton(
-                   onPressed: () {
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(
-      builder: (context) => const HomeScreen(),
-    ),
-  );
-},
 
+                  // Tombol Login
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFFC107),
+                      backgroundColor: const Color(0xFFFFC107),
                       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -98,9 +102,40 @@ class _LoginScreenState extends State<LoginScreen> {
                       shadowColor: Colors.orangeAccent,
                     ),
                     child: Text(
-                      texts['button']!,
+                      texts['buttonLogin']!,
                       style: GoogleFonts.poppins(
                         color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // Tombol Register
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>RegisterScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        side: const BorderSide(color: Color(0xFFFFC107), width: 2),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: Text(
+                      texts['buttonRegister']!,
+                      style: GoogleFonts.poppins(
+                        color: Color(0xFFFFC107),
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
