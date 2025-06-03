@@ -1,0 +1,30 @@
+{
+  "films": [
+    {
+      "id": "1",
+      "image": "assets/film1.jpg",
+      "title": {
+        "id": "Gatotkaca Sang Ksatria",
+        "jv": "Gatotkaca Sang Ksatria (Jawa)"
+      },
+      "description": {
+        "id": "Film tentang kepahlawanan Gatotkaca.",
+        "jv": "Film ngenani kapahlawanané Gatotkaca."
+      },
+      "video_url": "https://www.youtube.com/watch?v=58LqpHh_R6A"
+    },
+    {
+      "id": "2",
+      "image": "assets/film2.jpg",
+      "title": {
+        "id": "Petruk Dadi Ratu",
+        "jv": "Petruk Dadi Ratu (Jawa)"
+      },
+      "description": {
+        "id": "Kisah lucu dan bijak Petruk.",
+        "jv": "Crita lucu lan wicaksana Petruk."
+      },
+      "video_url": "https://www.youtube.com/watch?v=klmnopqrst"
+    }
+  ]
+}
